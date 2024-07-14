@@ -1,0 +1,72 @@
+---
+- name: Update and configure Ubuntu servers
+  hosts: newserver
+  become: yes
+
+  tasks:
+    - name: Update APT cache
+      apt:
+        update_cache: yes
+
+    - name: Upgrade packages
+      apt:
+        upgrade: yes
+
+    - name: Install qemu-guest-agent package
+      apt:
+        name: qemu-guest-agent
+        state: present
+
+    - name: Enable and start qemu-guest-agent service
+      systemd:
+        name: qemu-guest-agent
+        enabled: yes
+        state: started
+
+    - name: Set timezone to Europe/Berlin
+      command:
+        cmd: timedatectl set-timezone Europe/Berlin
+
+#    - name: Ensure PermitRootLogin is set to yes in sshd_config
+#      lineinfile:
+#        path: /etc/ssh/sshd_config
+#        regexp: '^#PermitRootLogin prohibit-password'
+#        line: 'PermitRootLogin yes'
+#        state: present
+#        backup: yes  # Optional: creates a backup of the file before editing
+
+#    - name: Restart SSH service to apply changes
+#      systemd:
+#        name: ssh
+#        state: restarted
+
+#    - name: Set root password
+#      command: echo "root:{{ root_password }}" | chpasswd
+
+    - name: Generate the de_DE.UTF-8 locale
+      locale_gen:
+        name: de_DE.UTF-8
+        state: present
+
+    - name: Update locale to use 24-hour time format
+      lineinfile:
+        path: /etc/default/locale
+        regexp: '^LC_TIME='
+        line: 'LC_TIME=de_DE.UTF-8'
+        create: yes
+
+    - name: Ensure the locale environment variable is set
+      shell: |
+        if ! grep -q "export LC_TIME=de_DE.UTF-8" /etc/profile; then
+          echo "export LC_TIME=de_DE.UTF-8" >> /etc/profile
+        fi
+
+    - name: Source /etc/profile to apply locale changes
+      shell: source /etc/profile
+      args:
+        executable: /bin/bash
+
+    - name: Reboot the server to apply all changes
+      reboot:
+        msg: "Reboot initiated by Ansible for locale changes."
+        reboot_timeout: 5
