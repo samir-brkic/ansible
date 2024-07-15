@@ -50,14 +50,11 @@
       args:
         executable: /bin/bash
 
-    - name: Install Docker and Docker Compose
+    - name: Install curl
       apt:
-        name: "{{ item }}"
+        name: curl
         state: present
-      loop:
-        - curl
-#        - docker.io
-#        - docker-compose
+
 
     - name: Install Docker via script
       shell: curl -fsSL https://get.docker.com -o get-docker.sh && sh get-docker.sh
