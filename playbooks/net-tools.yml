@@ -1,1 +1,10 @@
+---
+- name: install net-tools
+  hosts: newserver
+  become: yes
 
+  tasks:
+    - name: Install net-tools
+      apt:
+        name: net-tools
+        state: present
