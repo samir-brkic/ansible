@@ -27,21 +27,21 @@
       command:
         cmd: timedatectl set-timezone Europe/Berlin
 
-#    - name: Ensure PermitRootLogin is set to yes in sshd_config
-#      lineinfile:
-#        path: /etc/ssh/sshd_config
-#        regexp: '^#PermitRootLogin prohibit-password'
-#        line: 'PermitRootLogin yes'
-#        state: present
-#        backup: yes  # Optional: creates a backup of the file before editing
+    - name: Ensure PermitRootLogin is set to yes in sshd_config
+      lineinfile:
+        path: /etc/ssh/sshd_config
+        regexp: '^#PermitRootLogin prohibit-password'
+        line: 'PermitRootLogin yes'
+        state: present
+        backup: yes  # Optional: creates a backup of the file before editing
 
-#    - name: Restart SSH service to apply changes
-#      systemd:
-#        name: ssh
-#        state: restarted
+    - name: Restart SSH service to apply changes
+      systemd:
+        name: ssh
+        state: restarted
 
-#    - name: Set root password
-#      command: echo "root:{{ root_password }}" | chpasswd
+    - name: Set root password
+      command: echo "root:{{ root_password }}" | chpasswd
 
     - name: Generate the de_DE.UTF-8 locale
       locale_gen:
