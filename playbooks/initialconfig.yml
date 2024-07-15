@@ -10,7 +10,7 @@
 
     - name: Upgrade packages
       apt:
-        upgrade: yes
+        upgrade: full
 
     - name: Install qemu-guest-agent package
       apt:
