@@ -74,4 +74,4 @@
     - name: Reboot the server to apply all changes
       reboot:
         msg: "Reboot initiated by Ansible for locale changes."
-        reboot_timeout: 20
+        reboot_timeout: 30
