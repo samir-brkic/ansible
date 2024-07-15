@@ -23,6 +23,11 @@
         enabled: yes
         state: started
 
+    - name: Install net-tools
+      apt:
+        name: net-tools
+        state: present
+
     - name: Set timezone to Europe/Berlin
       command:
         cmd: timedatectl set-timezone Europe/Berlin
