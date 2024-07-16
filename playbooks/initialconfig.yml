@@ -2,8 +2,8 @@
 - name: Update and configure Ubuntu servers
   hosts: newserver
   become: yes
-  vars_files:
-    - /etc/ansible/vars/vault.yml
+#  vars_files:
+#    - /etc/ansible/vars/vault.yml
 
   tasks:
     - name: Update APT cache
@@ -40,10 +40,9 @@
         regexp: '^#PermitRootLogin prohibit-password'
         line: 'PermitRootLogin yes'
         state: present
-        backup: yes  # Optional: creates a backup of the file before editing
 
-    - name: Set root password
-      command: echo "root:{{ root_password }}" | chpasswd
+#    - name: Set root password
+#      command: echo "root:{{ root_password }}" | chpasswd
 
     - name: Generate the de_DE.UTF-8 locale
       locale_gen:
