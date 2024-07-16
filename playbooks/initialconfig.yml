@@ -3,7 +3,7 @@
   hosts: newserver
   become: yes
   vars_files:
-    - vars/vault.yml
+    - /root/vars/vault.yml
 
   tasks:
     - name: Update APT cache
