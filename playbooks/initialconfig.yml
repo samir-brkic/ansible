@@ -3,7 +3,7 @@
   hosts: newserver
   become: yes
   vars_files:
-    - /root/vars/vault.yml
+    - /etc/ansible/vars/vault.yml
 
   tasks:
     - name: Update APT cache
