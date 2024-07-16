@@ -2,6 +2,8 @@
 - name: Update and configure Ubuntu servers
   hosts: newserver
   become: yes
+  vars_files:
+    - vars/vault.yml
 
   tasks:
     - name: Update APT cache
@@ -40,11 +42,6 @@
         state: present
         backup: yes  # Optional: creates a backup of the file before editing
 
-    - name: Restart SSH service to apply changes
-      systemd:
-        name: ssh
-        state: restarted
-
     - name: Set root password
       command: echo "root:{{ root_password }}" | chpasswd
 
@@ -70,6 +67,14 @@
       shell: source /etc/profile
       args:
         executable: /bin/bash
+
+    - name: Copy authorized_keys from samir to root
+      copy:
+        src: /home/samir/.ssh/authorized_keys
+        dest: /root/.ssh/authorized_keys
+        owner: root
+        group: root
+        mode: '0600'
 
     - name: Reboot the server to apply all changes
       reboot:
