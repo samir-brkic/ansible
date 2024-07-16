@@ -74,7 +74,8 @@
         owner: root
         group: root
         mode: '0600'
-
+        remote_src: yes
+      
     - name: Reboot the server to apply all changes
       reboot:
         msg: "Reboot initiated by Ansible for locale changes."
